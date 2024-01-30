@@ -10,6 +10,16 @@ export async function createPrediction(
   
   noStore();
 
+  const imageUrl = await fetch(
+    `https://api.cloudinary.com/v1_1/dbictymrm/image/upload?upload_preset=replicate-stream&folder=replicate-stream`,
+    {
+      method: "PUT",
+      body: formData.get('image') as  File,
+    },
+  )
+    .then((res) => res.json() as Promise<{secure_url: string}>)
+    .then(({secure_url}) => secure_url)
+
   const prediction = await fetch("https://replicate.com/api/predictions", {
     headers: {
       accept: "application/json",
@@ -29,7 +39,7 @@ export async function createPrediction(
     body: JSON.stringify({
       input: {
         eta: 0,
-        image: formData.get("image") as string,
+        image: imageUrl,
         scale: 9,
         prompt: formData.get("promt") as string,
         a_prompt:
