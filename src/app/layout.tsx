@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] bg-background px-4 font-sans antialiased">
-      <header className="text-xl font-bold leading-[4rem]">Replicate - Generative Images</header>
+      <Navbar/>
+      {/* <header className="text-xl font-bold leading-[4rem]">Replicate - Generative Images</header> */}
       <main className="py-8">{children}</main>
+      <Footer/>
       </body>
     </html>
   );
