@@ -7,63 +7,63 @@ import { unstable_noStore as noStore } from "next/cache";
 export async function createPrediction(
   formData: FormData
 ): Promise<Prediction> {
-  
   noStore();
 
   const imageUrl = await fetch(
     `https://api.cloudinary.com/v1_1/dbictymrm/image/upload?upload_preset=replicate-stream&folder=replicate-stream`,
     {
       method: "PUT",
-      body: formData.get('image') as  File,
-    },
+      body: formData.get("image") as File,
+    }
   )
-    .then((res) => res.json() as Promise<{secure_url: string}>)
-    .then(({secure_url}) => secure_url)
+    .then((res) => res.json() as Promise<{ secure_url: string }>)
+    .then(({ secure_url }) => secure_url);
 
-  const prediction = await fetch("https://replicate.com/api/predictions", {
-    headers: {
-      accept: "application/json",
-      "accept-language": "en;q=0.5",
-      "content-type": "application/json",
-      "sec-ch-ua": '"Not A(Brand";v="99", "Brave";v="121", "Chromium";v="121"',
-      "sec-ch-ua-mobile": "?0",
-      "sec-ch-ua-platform": '"Windows"',
-      "sec-fetch-dest": "empty",
-      "sec-fetch-mode": "cors",
-      "sec-fetch-site": "same-origin",
-      "sec-gpc": "1",
-      "x-csrftoken": "u2UdJdQ88paQhGRuFDSd1IRk1c9iur6c",
-    },
-    referrer: "https://replicate.com/jagilley/controlnet-hough",
-    referrerPolicy: "same-origin",
-    body: JSON.stringify({
-      input: {
-        eta: 0,
-        image: imageUrl,
-        scale: 9,
-        prompt: formData.get("promt") as string,
-        a_prompt:
-          "best quality, extremely detailed, 4k, octane render, sharp bloom, daylight",
-        n_prompt:
-          "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, blurry",
-        ddim_steps: 20,
-        num_samples: "1",
-        value_threshold: 0.1,
-        image_resolution: "512",
-        detect_resolution: 512,
-        distance_threshold: 0.1,
+  const prediction = await fetch(
+    "https://replicate.com/api/models/jagilley/controlnet-hough/versions/854e8727697a057c525cdb45ab037f64ecca770a1769cc52287c2e56472a247b/predictions",
+    {
+      headers: {
+        accept: "application/json",
+        "accept-language": "en;q=0.5",
+        "content-type": "application/json",
+        "sec-ch-ua": '"Brave";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-fetch-dest": "empty",
+        "sec-fetch-mode": "cors",
+        "sec-fetch-site": "same-origin",
+        "sec-gpc": "1",
+        "x-csrftoken": "S67uOvqx5Arg09pCZdcC7hxNyk8hy36k",
       },
-      is_training: false,
-      create_model: "0",
-      stream: false,
-      version:
-        "854e8727697a057c525cdb45ab037f64ecca770a1769cc52287c2e56472a247b",
-    }),
-    method: "POST",
-    mode: "cors",
-    credentials: "include",
-  }).then((res) => res.json() as Promise<Prediction>);
-
+      referrer:
+        "https://replicate.com/jagilley/controlnet-hough?prediction=ngeoyu3bonf5wop5qiqrrkje3a&input=nodejs",
+      referrerPolicy: "same-origin",
+      body: JSON.stringify({
+        input: {
+          eta: 0,
+          image:formData.get("image") as string,
+          scale: 9,
+          prompt: formData.get("promt") as string,
+          a_prompt:
+            "best quality, extremely detailed, 4k, octane render, sharp bloom, daylight",
+          n_prompt:
+            "longbody, lowres, bad anatomy, bad hands, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, blurry",
+          ddim_steps: 20,
+          num_samples: "1",
+          value_threshold: 0.1,
+          image_resolution: "512",
+          detect_resolution: 512,
+          distance_threshold: 0.1,
+        },
+        stream: false,
+      }),
+      method: "POST",
+      mode: "cors",
+      credentials: "include",
+    }
+  )
+  .then((res) => res.json() as Promise<Prediction>);
+  console.log(prediction)
   return prediction;
 }
 
@@ -88,4 +88,7 @@ export async function getPrediction(id: string) {
     mode: "cors",
     credentials: "include",
   }).then((res) => res.json() as Promise<Prediction>);
+
+  
 }
+

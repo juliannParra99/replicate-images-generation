@@ -19,9 +19,9 @@ function FormContent() {
       {pending ? <Skeleton className="h-[480px] w-[512px]"></Skeleton> : null}
       <Input
         placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
-        //defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
+        defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
         name="image"
-        type="file"
+        type="text"
       />
       <Textarea name="promt" placeholder="An industrial bedroom" />
       <Button disabled={pending}>Run</Button>
@@ -31,13 +31,14 @@ function FormContent() {
 
 export default function Home() {
   const [state, formAction] = useFormState(handleSubmit, null)
+  console.log(state)
   async function handleSubmit(_state: null | Prediction,formData: FormData) {
     let prediction = await createPrediction(formData);
 
     while (["starting", "processing"].includes(prediction.status)) {
       prediction = await getPrediction(prediction.id);
-
       await sleep(4000);
+      console.log("prediction until now: ", prediction)
     }
     return prediction
   }
