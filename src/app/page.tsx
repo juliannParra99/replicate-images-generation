@@ -9,6 +9,7 @@ import { createPrediction, getPrediction } from "@/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import { Prediction } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useState } from "react";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -23,16 +24,47 @@ function SkeletonPending() {
 
 function FormContent() {
   const { pending } = useFormStatus();
+  // handle an image file. It initializes a state variable image with a default value 
+  const [image, setImage] = useState<string | null>("https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png");
+
+//   handleImageChange function is an event handler for the onChange event of an input element (<Input type="file" />). When a user selects a file using the file input, this function is called with the event object e.
+//  it first checks if a file was selected (const file = e.target.files?.[0]). If a file was selected, it creates a new FileReader object, reads the selected file as a data URL using reader.readAsDataURL(file), and sets the image state to the result (reader.result) once the file has been read (reader.onloadend).
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <>
+{/* here i can improve the code choosing one of another input if an input was selected or not. */}
+      <Input
+        type="file"
+        onChange={handleImageChange}
+      />
+      {image && (
+        <img src={image} alt="Uploaded Image" className="h-24 w-24 mt-2" />
+      )}
       <Input
         placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
         defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
         name="image"
-        type="text"
+        type="hidden"
+        value={image || ""}
       />
       <Textarea name="promt" placeholder="An industrial bedroom" />
-      <Button disabled={pending}>{pending ? ( <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-blue"></div>): <>Generate</>}</Button>
+      <Button disabled={pending}>
+        {pending ? (
+          <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-blue"></div>
+        ) : (
+          <>Generate</>
+        )}
+      </Button>
     </>
   );
 }
@@ -61,7 +93,9 @@ export default function Home() {
               className="h-[512px] w-[512px]"
               alt="Render previsualization"
             />
-          ) : <SkeletonPending />}
+          ) : (
+            <SkeletonPending />
+          )}
         </div>
         <FormContent />
       </form>
