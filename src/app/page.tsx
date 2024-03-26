@@ -12,11 +12,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function FormContent() {
+function SkeletonPending() {
   const { pending } = useFormStatus();
   return (
     <>
       {pending ? <Skeleton className="h-[480px] w-[512px]"></Skeleton> : null}
+    </>
+  );
+}
+
+function FormContent() {
+  const { pending } = useFormStatus();
+  return (
+    <>
       <Input
         placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
         defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
@@ -24,31 +32,37 @@ function FormContent() {
         type="text"
       />
       <Textarea name="promt" placeholder="An industrial bedroom" />
-      <Button disabled={pending}>Run</Button>
+      <Button disabled={pending}>{pending ? ( <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-blue"></div>): <>Generate</>}</Button>
     </>
   );
 }
 
 export default function Home() {
-  const [state, formAction] = useFormState(handleSubmit, null)
-  console.log(state)
-  async function handleSubmit(_state: null | Prediction,formData: FormData) {
+  const [state, formAction] = useFormState(handleSubmit, null);
+  console.log(state);
+  async function handleSubmit(_state: null | Prediction, formData: FormData) {
     let prediction = await createPrediction(formData);
 
     while (["starting", "processing"].includes(prediction.status)) {
       prediction = await getPrediction(prediction.id);
       await sleep(4000);
-      console.log("prediction until now: ", prediction)
+      console.log("prediction until now: ", prediction);
     }
-    return prediction
+    return prediction;
   }
 
   return (
     <section className="m-auto grid gap-4 max-w-[512px]">
-      {state?.output ? (
-        <img src={state.output[1]} alt="Render previsualization" />
-      ) : null}
       <form action={formAction} className="grid gap-4">
+        <div className=" h-[512px] w-[512px]">
+          {state?.output ? (
+            <img
+              src={state.output[1]}
+              className="h-[512px] w-[512px]"
+              alt="Render previsualization"
+            />
+          ) : <SkeletonPending />}
+        </div>
         <FormContent />
       </form>
     </section>
