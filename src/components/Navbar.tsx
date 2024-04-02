@@ -45,13 +45,18 @@ const routeList: RouteProps[] = [
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <header className="sticky border-b-[1px] top-0 z-40 w-full bg-white dark:border-b-slate-700 dark:bg-background">
-      <NavigationMenu className="mx-auto">
-        <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between ">
+    <header className="sticky border-b-[1px] top-0 z-40 w-full gap-1 bg-white dark:border-b-slate-700 dark:bg-background">
+      <NavigationMenu className="mx-auto flex justify-between">
+        <NavigationMenuList className="container h-14 px-4  flex justify-between ">
           <NavigationMenuItem className="font-bold flex">
-            <a href="/" className="ml-2 font-bold text-xl flex">
-              Replicate - Generation
-            </a>
+            <div className="container">
+              <a
+                href="/"
+                className=" font-bold text-xl flex gap-2 justify-start"
+              >
+                Replicate - Generation
+              </a>
+            </div>
           </NavigationMenuItem>
 
           {/* mobile */}
@@ -66,7 +71,6 @@ export const Navbar = () => {
                 >
                   {/* <span className="sr-only">Menu Icon</span> */}
                 </Menu>
-                
               </SheetTrigger>
 
               <SheetContent side={"left"}>
@@ -75,7 +79,7 @@ export const Navbar = () => {
                     Replicate - Generation
                   </SheetTitle>
                 </SheetHeader>
-                <nav className="flex flex-col justify-center items-center gap-2 mt-4">
+                <nav className="flex flex-col justify-center items-center gap-3 mt-4">
                   {routeList.map(({ href, label }: RouteProps) => (
                     <a
                       key={label}
@@ -110,7 +114,7 @@ export const Navbar = () => {
           </span>
 
           {/* desktop */}
-          <nav className="hidden md:flex gap-2">
+          <nav className="hidden md:flex gap-2 ">
             {routeList.map((route: RouteProps, i) => (
               <a
                 href={route.href}
@@ -124,7 +128,7 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex gap-2">
+          <div className="hidden md:flex gap-2 m-auto">
             <a
               href="#"
               target="_blank"

@@ -24,11 +24,13 @@ function SkeletonPending() {
 
 function FormContent() {
   const { pending } = useFormStatus();
-  // handle an image file. It initializes a state variable image with a default value 
-  const [image, setImage] = useState<string | null>("https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png");
+  // handle an image file. It initializes a state variable image with a default value
+  const [image, setImage] = useState<string | null>(
+    "https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
+  );
 
-//   handleImageChange function is an event handler for the onChange event of an input element (<Input type="file" />). When a user selects a file using the file input, this function is called with the event object e.
-//  it first checks if a file was selected (const file = e.target.files?.[0]). If a file was selected, it creates a new FileReader object, reads the selected file as a data URL using reader.readAsDataURL(file), and sets the image state to the result (reader.result) once the file has been read (reader.onloadend).
+  //   handleImageChange function is an event handler for the onChange event of an input element (<Input type="file" />). When a user selects a file using the file input, this function is called with the event object e.
+  //  it first checks if a file was selected (const file = e.target.files?.[0]). If a file was selected, it creates a new FileReader object, reads the selected file as a data URL using reader.readAsDataURL(file), and sets the image state to the result (reader.result) once the file has been read (reader.onloadend).
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -42,14 +44,31 @@ function FormContent() {
 
   return (
     <>
-{/* here i can improve the code choosing one of another input if an input was selected or not. */}
-      <Input
-        type="file"
-        onChange={handleImageChange}
-      />
-      {image && (
-        <img src={image} alt="Uploaded Image" className="h-24 w-24 mt-2" />
-      )}
+      {/* here i can improve the code choosing one of another input if an input was selected or not. */}
+      <p className="text-xl text-purple-50">Choose a picture (Optional)</p>
+      <div className="flex items-center space-x-6">
+        <div className="shrink-0">
+          {image && (
+            <img
+              src={image}
+              alt="Uploaded Image"
+              className="h-[5.5rem] w-[5.5rem] mt-2 object-cover rounded-sm "
+            />
+          )}
+        </div>
+        <Input
+          type="file"
+          className="block w-full text-sm text-slate-500
+      file:mr-4 
+      file:rounded-sm file:border-0
+      file:text-sm file:font-semibold
+      file:bg-violet-50 file:
+      hover:file:bg-violet-100
+    "
+          onChange={handleImageChange}
+        />
+      </div>
+
       <Input
         placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
         defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
@@ -57,6 +76,7 @@ function FormContent() {
         type="hidden"
         value={image || ""}
       />
+      <p className="text-xl text-purple-50">Prompt:</p>
       <Textarea name="promt" placeholder="An industrial bedroom" />
       <Button disabled={pending}>
         {pending ? (

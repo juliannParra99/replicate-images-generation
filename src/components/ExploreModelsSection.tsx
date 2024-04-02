@@ -4,7 +4,7 @@ import CardsModels from "./CardsModels";
 
 const modelsData = [
   {
-    title: "smoretalk/rembg-enhance",
+    title: "smoretalk/{rembg-enhance",
     description: `A background removal model enhanced with ViTMatte.`,
     image:
       "https://tjzk.replicate.delivery/models_models_featured_image/36ad614e-4103-4012-9ae4-6937bf146b67/vit-matte.jpg",
