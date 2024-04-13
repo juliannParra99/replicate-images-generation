@@ -45,46 +45,57 @@ function FormContent() {
   return (
     <>
       {/* here i can improve the code choosing one of another input if an input was selected or not. */}
-      <p className="text-xl text-purple-50">Choose a picture (Optional)</p>
-      <div className="flex items-center space-x-6">
-        <div className="shrink-0">
-          {image && (
-            <img
-              src={image}
-              alt="Uploaded Image"
-              className="h-[5.5rem] w-[5.5rem] mt-2 object-cover rounded-sm "
-            />
-          )}
-        </div>
-        <Input
-          type="file"
-          className="block w-full text-sm text-slate-500
+      <div>
+        <p className="text-xl text-purple-50">
+          Choose a picture as a model (Optional)
+        </p>
+        <div className="flex items-center space-x-6">
+          <div className="shrink-0">
+            {image && (
+              <img
+                src={image}
+                alt="Uploaded Image"
+                className="h-[5.5rem] w-[5.5rem] mt-2 object-cover rounded-sm "
+              />
+            )}
+          </div>
+          <Input
+            type="file"
+            className="block w-full text-sm text-slate-500
       file:mr-4 
       file:rounded-sm file:border-0
       file:text-sm file:font-semibold
       file:bg-violet-50 file:
       hover:file:bg-violet-100
     "
-          onChange={handleImageChange}
-        />
+            onChange={handleImageChange}
+          />
+        </div>
+        <div>
+          <Input
+            placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
+            defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
+            name="image"
+            type="hidden"
+            value={image || ""}
+          />
+          <p className="mt-2 text-xl text-purple-50">Prompt:</p>
+          <Textarea
+            className="mt-2"
+            name="promt"
+            placeholder="An industrial bedroom"
+          />
+          <div className="mt-4">
+            <Button disabled={pending} className="w-full">
+              {pending ? (
+                <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-blue"></div>
+              ) : (
+                <>Generate</>
+              )}
+            </Button>
+          </div>
+        </div>
       </div>
-
-      <Input
-        placeholder="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
-        defaultValue="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
-        name="image"
-        type="hidden"
-        value={image || ""}
-      />
-      <p className="text-xl text-purple-50">Prompt:</p>
-      <Textarea name="promt" placeholder="An industrial bedroom" />
-      <Button disabled={pending}>
-        {pending ? (
-          <div className=" h-5 w-5 animate-spin rounded-full border-b-2 border-blue"></div>
-        ) : (
-          <>Generate</>
-        )}
-      </Button>
     </>
   );
 }
@@ -104,18 +115,24 @@ export default function Home() {
   }
 
   return (
-    <section className="m-auto grid gap-4 max-w-[512px]">
-      <form action={formAction} className="grid gap-4">
-        <div className=" h-[512px] w-[512px]">
-          {state?.output ? (
-            <img
-              src={state.output[1]}
-              className="h-[512px] w-[512px]"
-              alt="Render previsualization"
-            />
-          ) : (
-            <SkeletonPending />
-          )}
+    <section className="m-auto ">
+      <form action={formAction} className="grid lg:grid-cols-2 gap-2">
+        <div className="margin-auto h-[512px] w-[512px]">
+          <div className="items-center">
+            {state?.output ? (
+              <img
+                src={state.output[1]}
+                className="m-auto h-[512px] w-[512px]"
+                alt="Render previsualization"
+              />
+            ) : (
+              <img
+                src="https://replicate.delivery/pbxt/IJZOELWrncBcjdE1s5Ko8ou35ZOxjNxDqMf0BhoRUAtv76u4/room.png"
+                className=" h-[512px] w-[512px]"
+                alt="Render previsualization"
+              />
+            )}
+          </div>
         </div>
         <FormContent />
       </form>

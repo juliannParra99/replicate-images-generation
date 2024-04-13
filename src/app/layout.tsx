@@ -21,12 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="dark container m-auto grid min-h-screen grid-rows-[auto,1fr,auto] bg-background px-4 font-sans antialiased">
-      <Navbar/>
-      <HeroSection/>
+        <Navbar />
+        <HeroSection />
 
-      <main className="py-8">{children}</main>
-      <ExploreModelsSection/>
-      <Footer/>
+        <main className="py-8">{children}</main>
+        <ExploreModelsSection />
+        <Footer />
       </body>
     </html>
   );

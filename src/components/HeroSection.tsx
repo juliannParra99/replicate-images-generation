@@ -13,7 +13,7 @@ export const HeroSection = () => {
           <h2 className="inline"></h2>
         </main>
 
-        <p className="text-xl text-muted-foreground md:w-10/12 mx-auto  flex justify-center lg:mx-0">
+        <p className="text-xl text-muted-foreground md:w-10/12 mx-auto  flex justify-center s">
           Run and fine-tune open-source models. Deploy custom models at scale.
           All with one line of code.
         </p>

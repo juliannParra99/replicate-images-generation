@@ -4,18 +4,18 @@
 import { Prediction } from "@/types";
 import { unstable_noStore as noStore } from "next/cache";
 
+const cloudinaryUrl = process.env.CLOUDINARY_URL!;
+const replicateToken = process.env.REPLICATE_CSRF_TOKEN!;
+
 export async function createPrediction(
   formData: FormData
 ): Promise<Prediction> {
   noStore();
 
-  const imageUrl = await fetch(
-    `https://api.cloudinary.com/v1_1/dbictymrm/image/upload?upload_preset=replicate-stream&folder=replicate-stream`,
-    {
-      method: "PUT",
-      body: formData.get("image") as File,
-    }
-  )
+  const imageUrl = await fetch(cloudinaryUrl, {
+    method: "PUT",
+    body: formData.get("image") as File,
+  })
     .then((res) => res.json() as Promise<{ secure_url: string }>)
     .then(({ secure_url }) => secure_url);
 
@@ -33,7 +33,7 @@ export async function createPrediction(
         "sec-fetch-mode": "cors",
         "sec-fetch-site": "same-origin",
         "sec-gpc": "1",
-        "x-csrftoken": "S67uOvqx5Arg09pCZdcC7hxNyk8hy36k",
+        "x-csrftoken": replicateToken,
       },
       referrer:
         "https://replicate.com/jagilley/controlnet-hough?prediction=ngeoyu3bonf5wop5qiqrrkje3a&input=nodejs",
@@ -41,7 +41,7 @@ export async function createPrediction(
       body: JSON.stringify({
         input: {
           eta: 0,
-          image:formData.get("image") as string,
+          image: formData.get("image") as string,
           scale: 9,
           prompt: formData.get("promt") as string,
           a_prompt:
@@ -61,9 +61,8 @@ export async function createPrediction(
       mode: "cors",
       credentials: "include",
     }
-  )
-  .then((res) => res.json() as Promise<Prediction>);
-  console.log(prediction)
+  ).then((res) => res.json() as Promise<Prediction>);
+  console.log(prediction);
   return prediction;
 }
 
@@ -88,7 +87,4 @@ export async function getPrediction(id: string) {
     mode: "cors",
     credentials: "include",
   }).then((res) => res.json() as Promise<Prediction>);
-
-  
 }
-

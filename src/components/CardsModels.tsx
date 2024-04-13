@@ -7,10 +7,12 @@ const CardsModels = ({
   imgUrl,
   title,
   description,
+  index,
 }: {
   imgUrl: string;
   title: string;
   description: string;
+  index: number;
 }) => {
   return (
     <div>
