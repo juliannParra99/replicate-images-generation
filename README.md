@@ -1,7 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Replicate: Images Generation
+
+
+https://github.com/juliannParra99/replicate-images-generation/assets/104667764/a20bfbbd-1b1d-4e35-b12b-e79c0e3fc9bd
+
+
+
+------------------------------------
+ #### Web application that leverages the power of Replicate's API to empower users to generate images from text descriptions (prompts). This platform offers a user-friendly interface and seamless integration with Replicate, making it an amazingexplore the creative potential of AI-powered image generation.
+
+## Key Features for Unparalleled Creative Exploration
+
+- **AI-Driven Image Generation:** Utilize the cutting-edge capabilities of AI to generate images based on your text descriptions, transforming your creative visions into tangible realities.
+  
+- **Default and Custom Image Options:** Choose the default images or upload your own to set the stage for your generated artwork, adding context and inspiration to your creative endeavors.
+  
+- **Diverse Model Support:** Adaptable to a wide range of AI models, each with its own artistic style and capabilities, to create a spectrum of images that reflect your creative vision and artistic preferences.
+  
+- **Intuitive and Streamlined Interface:**  user-friendly interface that makes it effortless to generate images with just a few clicks, ensuring a smooth and efficient creative process.
+
+
 
 ## Getting Started
-
 First, run the development server:
 
 ```bash
